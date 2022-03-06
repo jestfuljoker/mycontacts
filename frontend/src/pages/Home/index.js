@@ -1,13 +1,22 @@
 import React from 'react';
-import { Container, Header, ListContainer, Card } from './styles';
+import {
+  Container,
+  Header,
+  ListContainer,
+  Card,
+  InputSearchContainer,
+} from './styles';
 
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
 
-export default function ContactsList() {
+function Home() {
   return (
     <Container>
+      <InputSearchContainer>
+        <input type="text" placeholder="Pesquisar pelo nome" />
+      </InputSearchContainer>
       <Header>
         <strong>3 contatos</strong>
         <a href="/#">Novo contato</a>
@@ -82,3 +91,5 @@ export default function ContactsList() {
     </Container>
   );
 }
+
+export default Home;
