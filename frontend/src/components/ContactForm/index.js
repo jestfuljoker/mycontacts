@@ -1,30 +1,102 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, ButtonContainer } from './styles';
+import React, { useState } from 'react';
 
+import isEmailValid from '../../utils/isEmailValid';
+
+import { ButtonContainer, Form } from './styles';
+
+import Button from '../Button';
 import FormGroup from '../FormGroup';
 import Input from '../Input';
 import Select from '../Select';
-import Button from '../Button';
 
 function ContactForm({ buttonLabel }) {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [category, setCategory] = useState('');
+  const [errors, setErrors] = useState([]);
+
+  function getErrorMessageByFieldName(fieldName) {
+    return errors.find(error => error.field === fieldName)?.message;
+  }
+
+  function handleEmailChange(event) {
+    setEmail(event.target.value);
+
+    if (event.target.value && !isEmailValid(event.target.value)) {
+      const errorAlreadyExists = errors.find(error => error.field === 'email');
+
+      if (errorAlreadyExists) {
+        return;
+      }
+
+      setErrors(prevState => [
+        ...prevState,
+        { field: 'email', message: 'E-mail inválido' },
+      ]);
+    } else {
+      setErrors(prevState =>
+        prevState.filter(error => error.field !== 'email'),
+      );
+    }
+  }
+
+  function handleNameChange(event) {
+    setName(event.target.value);
+
+    if (!event.target.value) {
+      setErrors(prevState => [
+        ...prevState,
+        { field: 'name', message: 'Nome é obrigatório' },
+      ]);
+    } else {
+      setErrors(prevState => prevState.filter(error => error.field !== 'name'));
+    }
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    console.log({ name, email, phone, category });
+  }
+
   return (
-    <Form>
-      <FormGroup>
-        <Input placeholder="Nome" />
+    <Form onSubmit={handleSubmit}>
+      <FormGroup error={getErrorMessageByFieldName('name')}>
+        <Input
+          onChange={handleNameChange}
+          value={name}
+          placeholder="Nome"
+          error={getErrorMessageByFieldName('name')}
+        />
       </FormGroup>
 
-      <FormGroup error="O formato do e-mail é inválido">
-        <Input error placeholder="Email" />
+      <FormGroup error={getErrorMessageByFieldName('email')}>
+        <Input
+          onChange={handleEmailChange}
+          value={email}
+          placeholder="Email"
+          error={getErrorMessageByFieldName('email')}
+        />
       </FormGroup>
 
       <FormGroup>
-        <Input placeholder="Telefone" />
+        <Input
+          onChange={event => setPhone(event.target.value)}
+          value={phone}
+          placeholder="Telefone"
+        />
       </FormGroup>
 
       <FormGroup>
-        <Select placeholder="Categoria">
+        <Select
+          onChange={event => setCategory(event.target.value)}
+          value={category}
+          placeholder="Categoria"
+        >
+          <option value="">Categoria</option>
           <option value="instagram">Instagram</option>
+          <option value="discord">Discord</option>
         </Select>
       </FormGroup>
 
