@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Container,
@@ -17,8 +17,12 @@ function Home() {
   const [orderBy, setOrderBy] = useState('asc');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredContacts = useMemo(
+    () =>
+      contacts.filter(contact =>
+        contact.name.toLowerCase().includes(searchTerm.toLowerCase()),
+      ),
+    [contacts, searchTerm],
   );
 
   useEffect(() => {
