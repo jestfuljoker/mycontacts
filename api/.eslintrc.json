@@ -1,14 +1,22 @@
 {
   "env": {
     "commonjs": true,
-    "es2020": true,
+    "es2021": true,
     "node": true
   },
-  "extends": "airbnb-base",
+  "extends": [
+    "airbnb-base",
+    "eslint:recommended",
+    "plugin:prettier/recommended"
+  ],
   "parserOptions": {
     "ecmaVersion": 11
   },
+  "plugins": [
+    "prettier"
+  ],
   "rules": {
+    "prettier/prettier": "error",
     "class-methods-use-this": "off",
     "consistent-return": "off",
     "camelcase": "off",
