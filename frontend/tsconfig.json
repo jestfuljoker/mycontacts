@@ -41,8 +41,14 @@
       "@pages/*": [
         "./src/pages/*"
       ],
+      "@errors/*": [
+        "./src/errors/*"
+      ],
       "@assets/*": [
         "./src/assets/*"
+      ],
+      "types/*": [
+        "src/types/*"
       ],
       "@services/*": [
         "./src/services/*"

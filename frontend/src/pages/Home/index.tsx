@@ -9,15 +9,9 @@ import trash from '@assets/images/icons/trash.svg';
 import Loader from '@components/Loader';
 import type { OrderBy } from '@services/ContactsService';
 import ContactsService from '@services/ContactsService';
+import type { Contact } from 'types/contact';
+import { ApiError } from '@errors/ApiError';
 import * as S from './styles';
-
-interface Contact {
-	id: string;
-	name: string;
-	email: string;
-	phone: string;
-	category_name: string;
-}
 
 export default function Home() {
 	const [contacts, setContacts] = useState<Contact[]>([]);
@@ -38,7 +32,8 @@ export default function Home() {
 			try {
 				setIsLoading(true);
 
-				const contactsList = await ContactsService.listContacts(orderBy);
+				const contactsList =
+					await ContactsService.listContacts<Contact[]>(orderBy);
 
 				setContacts(contactsList);
 			} catch (error) {

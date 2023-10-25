@@ -10,6 +10,7 @@ import FormGroup from '@components/FormGroup';
 import Input from '@components/Input';
 import Select from '@components/Select';
 
+import ContactsService from '@services/ContactsService';
 import * as S from './styles';
 
 interface ContactFormProps {
@@ -51,9 +52,16 @@ export default function ContactForm({ buttonLabel }: ContactFormProps) {
 		setPhone(formatPhone(event.target.value));
 	}
 
-	function handleSubmit(event: FormEvent<HTMLFormElement>) {
+	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-		console.log({ name, email, phone, category });
+		const a = await ContactsService.createContact({
+			name,
+			email,
+			phone,
+			category_name: category,
+		});
+
+		console.log(a);
 	}
 
 	return (
