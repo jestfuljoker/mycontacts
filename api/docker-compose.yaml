@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  postgresdb:
+    image: postgres
+    container_name: mycontacts-api-postgres
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - ./.docker/postgresdb/:/.docker/postgresdb/
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root

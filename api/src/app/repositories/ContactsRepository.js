@@ -14,12 +14,15 @@ class ContactsRepository {
   }
 
   async findById(id) {
-    const [row] = await db.query(`
+    const [row] = await db.query(
+      `
       SELECT contacts.*, categories.name AS category_name
       FROM contacts
       LEFT JOIN categories ON categories.id = contacts.category_id
       WHERE contacts.id = $1
-    `, [id]);
+    `,
+      [id],
+    );
 
     return row;
   }
@@ -32,9 +35,7 @@ class ContactsRepository {
     return row;
   }
 
-  async create({
-    name, email, phone, category_id,
-  }) {
+  async create({ name, email, phone, category_id }) {
     const [row] = await db.query(
       `
       INSERT INTO contacts (name, email, phone, category_id)
@@ -47,9 +48,7 @@ class ContactsRepository {
     return row;
   }
 
-  async update(id, {
-    name, email, phone, category_id,
-  }) {
+  async update(id, { name, email, phone, category_id }) {
     const [row] = await db.query(
       `
       UPDATE contacts
