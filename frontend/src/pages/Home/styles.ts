@@ -166,3 +166,15 @@ export const EmptyListContainer = styled.div`
 		}
 	}
 `;
+
+export const MagnifierContainer = styled.div`
+	display: flex;
+	align-items: flex-start;
+	margin-top: 16px;
+
+	span {
+		color: ${({ theme }) => theme.colors.gray[200]};
+		margin-left: 24px;
+		word-break: break-word;
+	}
+`;

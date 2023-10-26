@@ -8,6 +8,7 @@ import edit from '@assets/images/icons/edit.svg';
 import trash from '@assets/images/icons/trash.svg';
 import sad from '@assets/images/sad.svg';
 import emptyBox from '@assets/images/empty-box.svg';
+import magnifierQuestion from '@assets/images/magnifier-question.svg';
 
 import Loader from '@components/Loader';
 import type { OrderBy } from '@services/ContactsService';
@@ -115,13 +116,26 @@ export default function Home() {
 					{!isLoading && contacts.length < 1 && (
 						<S.EmptyListContainer>
 							<img src={emptyBox} alt="Empty box" />
+
 							<p>
 								Você ainda não tem nenhum contato cadastrado! Clique no botão
-								<strong>&quot;Novo contato&quot;</strong> acima para cadastrar o
-								seu primeiro!
+								<strong>”Novo contato”</strong> acima para cadastrar o seu
+								primeiro!
 							</p>
 						</S.EmptyListContainer>
 					)}
+
+					{!isLoading && contacts.length > 0 && filteredContacts.length < 1 && (
+						<S.MagnifierContainer>
+							<img src={magnifierQuestion} alt="Magnifier question" />
+
+							<span>
+								Nenhum resultado foi entrado para{' '}
+								<strong>”{searchTerm}”</strong>.
+							</span>
+						</S.MagnifierContainer>
+					)}
+
 					{filteredContacts.length > 0 && (
 						<S.ListHeader orderBy={orderBy}>
 							<button type="button" onClick={handleToggleOrderBy}>
