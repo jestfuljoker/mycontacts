@@ -1,5 +1,5 @@
 import type { OrderBy } from '@services/ContactsService';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
 	margin-top: 32px;
@@ -25,34 +25,35 @@ export const InputSearchContainer = styled.div`
 	}
 `;
 
-export const Header = styled.header<{ hasError: boolean }>`
-	display: flex;
-	align-items: center;
-	justify-content: ${({ hasError }) =>
-		hasError ? 'flex-end' : 'space-between'};
+export const Header = styled.header<{ justifyContent: string }>`
+	${({ theme, justifyContent }) => css`
+		display: flex;
+		align-items: center;
+		justify-content: ${justifyContent};
 
-	border-bottom: 2px solid ${({ theme }) => theme.colors.gray[100]};
-	padding-bottom: 16px;
+		border-bottom: 2px solid ${theme.colors.gray[100]};
+		padding-bottom: 16px;
 
-	strong {
-		font-size: 24px;
-	}
-
-	a {
-		text-decoration: none;
-		font-weight: bold;
-		font-size: 16px;
-		color: ${({ theme }) => theme.colors.primary.main};
-		padding: 8px 16px;
-		border: 2px solid ${({ theme }) => theme.colors.primary.main};
-		border-radius: 4px;
-		transition: all 0.2s ease-in;
-
-		&:hover {
-			background: ${({ theme }) => theme.colors.primary.main};
-			color: #fff;
+		strong {
+			font-size: 24px;
 		}
-	}
+
+		a {
+			text-decoration: none;
+			font-weight: bold;
+			font-size: 16px;
+			color: ${theme.colors.primary.main};
+			padding: 8px 16px;
+			border: 2px solid ${theme.colors.primary.main};
+			border-radius: 4px;
+			transition: all 0.2s ease-in;
+
+			&:hover {
+				background: ${theme.colors.primary.main};
+				color: #fff;
+			}
+		}
+	`};
 `;
 
 export const ListHeader = styled.header<{ orderBy: OrderBy }>`
@@ -145,6 +146,23 @@ export const ErrorContainer = styled.div`
 			color: ${({ theme }) => theme.colors.danger.main};
 			display: block;
 			margin-bottom: 8px;
+		}
+	}
+`;
+
+export const EmptyListContainer = styled.div`
+	margin-top: 16px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	p {
+		color: ${({ theme }) => theme.colors.gray[200]};
+		margin-top: 8px;
+		text-align: center;
+
+		strong {
+			color: ${({ theme }) => theme.colors.primary.main};
 		}
 	}
 `;

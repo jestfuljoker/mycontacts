@@ -13,7 +13,7 @@ class ContactsService {
 	async listContacts<TReturn = unknown>(
 		orderBy: OrderBy = 'asc',
 	): Promise<TReturn> {
-		return this.httpClient.get<TReturn>(`/contactss?orderBy=${orderBy}`);
+		return this.httpClient.get<TReturn>(`/contacts?orderBy=${orderBy}`);
 	}
 
 	async createContact(contact: Omit<Contact, 'id'>) {
