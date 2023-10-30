@@ -1,5 +1,5 @@
 import type { ChangeEvent, FormEvent } from 'react';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import useErrors from '@hooks/useErrors';
 import formatPhone from '@utils/formatPhone';
@@ -11,7 +11,13 @@ import Input from '@components/Input';
 import Select from '@components/Select';
 
 import ContactsService from '@services/ContactsService';
+import CategoriesService from '@services/CategoriesService';
 import * as S from './styles';
+
+interface Category {
+	name: string;
+	id: string;
+}
 
 interface ContactFormProps {
 	buttonLabel: string;
@@ -21,12 +27,26 @@ export default function ContactForm({ buttonLabel }: ContactFormProps) {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [phone, setPhone] = useState('');
-	const [category, setCategory] = useState('');
+	const [categoryId, setCategoryId] = useState('');
+	const [categoriesList, setCategoriesList] = useState<Category[]>([]);
 
 	const { errors, setError, removeError, getErrorMessageByFieldName } =
 		useErrors();
 
 	const isFormValid = name && errors.length === 0;
+
+	const loadCategories = useCallback(async () => {
+		try {
+			const categories = await CategoriesService.listCategories<Category[]>();
+			setCategoriesList(categories);
+		} catch (error) {
+			console.log(error);
+		}
+	}, []);
+
+	useEffect(() => {
+		loadCategories();
+	}, [loadCategories]);
 
 	function handleEmailChange(event: ChangeEvent<HTMLInputElement>) {
 		setEmail(event.target.value);
@@ -58,7 +78,7 @@ export default function ContactForm({ buttonLabel }: ContactFormProps) {
 			name,
 			email,
 			phone,
-			category_name: category,
+			category_name: categoryId,
 		});
 
 		console.log(a);
@@ -96,13 +116,17 @@ export default function ContactForm({ buttonLabel }: ContactFormProps) {
 
 			<FormGroup>
 				<Select
-					onChange={(event) => setCategory(event.target.value)}
-					value={category}
+					onChange={(event) => setCategoryId(event.target.value)}
+					value={categoryId}
 					placeholder="Categoria"
 				>
-					<option value="">Categoria</option>
-					<option value="instagram">Instagram</option>
-					<option value="discord">Discord</option>
+					<option value="">Sem categoria</option>
+
+					{categoriesList.map((category) => (
+						<option key={category.id} value={category.id}>
+							{category.name}
+						</option>
+					))}
 				</Select>
 			</FormGroup>
 

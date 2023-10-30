@@ -1,9 +1,7 @@
 import ContactForm from '@components/ContactForm';
 import PageHeader from '@components/PageHeader';
 
-// import { Container } from './styles';
-
-function NewContact() {
+export default function NewContact() {
 	return (
 		<>
 			<PageHeader title="Novo contato" />
@@ -11,5 +9,3 @@ function NewContact() {
 		</>
 	);
 }
-
-export default NewContact;
