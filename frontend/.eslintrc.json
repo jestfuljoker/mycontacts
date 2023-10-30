@@ -56,6 +56,12 @@
     "react/jsx-no-bind": "off",
     "react/require-default-props": "off",
     "import/prefer-default-export": "off",
+    "no-empty": [
+      "error",
+      {
+        "allowEmptyCatch": true
+      }
+    ],
     "prettier/prettier": [
       "error",
       {

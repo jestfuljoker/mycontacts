@@ -29,6 +29,7 @@ export default function ContactForm({ buttonLabel }: ContactFormProps) {
 	const [phone, setPhone] = useState('');
 	const [categoryId, setCategoryId] = useState('');
 	const [categoriesList, setCategoriesList] = useState<Category[]>([]);
+	const [isLoadingCategories, setIsLoadingCategories] = useState(true);
 
 	const { errors, setError, removeError, getErrorMessageByFieldName } =
 		useErrors();
@@ -38,9 +39,11 @@ export default function ContactForm({ buttonLabel }: ContactFormProps) {
 	const loadCategories = useCallback(async () => {
 		try {
 			const categories = await CategoriesService.listCategories<Category[]>();
+
 			setCategoriesList(categories);
-		} catch (error) {
-			console.log(error);
+		} catch {
+		} finally {
+			setIsLoadingCategories(false);
 		}
 	}, []);
 
@@ -114,11 +117,12 @@ export default function ContactForm({ buttonLabel }: ContactFormProps) {
 				/>
 			</FormGroup>
 
-			<FormGroup>
+			<FormGroup isLoading={isLoadingCategories}>
 				<Select
 					onChange={(event) => setCategoryId(event.target.value)}
 					value={categoryId}
 					placeholder="Categoria"
+					disabled={isLoadingCategories}
 				>
 					<option value="">Sem categoria</option>
 
