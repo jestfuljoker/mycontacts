@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
 
-import { Overlay } from './styles';
+import { Spinner } from '@components/Spinner';
+import * as S from './styles';
 
 interface LoaderProps {
 	isLoading: boolean;
@@ -12,9 +13,9 @@ export default function Loader({ isLoading }: LoaderProps) {
 	}
 
 	return ReactDOM.createPortal(
-		<Overlay>
-			<div className="loader" />
-		</Overlay>,
+		<S.Overlay>
+			<Spinner size={90} />
+		</S.Overlay>,
 		document.getElementById('loader-root')!,
 	);
 }

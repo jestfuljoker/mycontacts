@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { Spinner } from '@components/Spinner';
 import * as S from './styles';
 
 interface FormGroupProps {
@@ -17,7 +18,11 @@ export default function FormGroup({
 			<div className="form-item">
 				{children}
 
-				{isLoading && <div className="loader" />}
+				{isLoading && (
+					<div className="loader">
+						<Spinner size={18} />
+					</div>
+				)}
 			</div>
 
 			{error && <small>{error}</small>}
