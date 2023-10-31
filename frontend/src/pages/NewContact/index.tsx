@@ -13,7 +13,7 @@ export default function NewContact() {
 				category_id: data.categoryId,
 			};
 
-			const response = ContactsService.createContact(contact);
+			await ContactsService.createContact(contact);
 		} catch (error) {
 			alert('Erro ao cadastrar o contato');
 		}

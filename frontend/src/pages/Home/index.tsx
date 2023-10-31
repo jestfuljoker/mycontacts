@@ -14,7 +14,7 @@ import Loader from '@components/Loader';
 import type { OrderBy } from '@services/ContactsService';
 import ContactsService from '@services/ContactsService';
 import type { Contact } from 'types/global';
-import Button from '@components/Button';
+import Button from '@components/Button/styles';
 import * as S from './styles';
 
 export default function Home() {

@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom';
-import Button from '../Button';
+import Button from '../Button/styles';
 import * as S from './styles';
 
 interface ModalProps {
