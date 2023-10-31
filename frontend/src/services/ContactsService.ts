@@ -1,7 +1,14 @@
-import type { Contact } from 'types/contact';
+import type { Contact } from 'types/global';
 import HttpClient from './utils/HttpClient';
 
 export type OrderBy = 'asc' | 'desc';
+
+export interface ContactRequest {
+	name: string;
+	email: string;
+	phone: string;
+	category_id: string;
+}
 
 class ContactsService {
 	private httpClient: HttpClient;
@@ -16,8 +23,10 @@ class ContactsService {
 		return this.httpClient.get<TReturn>(`/contacts?orderBy=${orderBy}`);
 	}
 
-	async createContact(contact: Omit<Contact, 'id'>) {
-		return this.httpClient.post(`/contacts`, contact);
+	async createContact(contact: ContactRequest): Promise<Contact> {
+		return this.httpClient.post<Contact>(`/contacts`, {
+			body: JSON.stringify(contact),
+		});
 	}
 }
 

@@ -8,34 +8,52 @@ export default class HttpClient {
 		this.baseURL = baseURL;
 	}
 
-	async get<TReturn>(path: string): Promise<TReturn> {
+	get<TReturn>(path: string, options: RequestInit = {}): Promise<TReturn> {
+		return this.makeRequest(path, { ...options, method: 'GET' });
+	}
+
+	post<TReturn>(path: string, options: RequestInit = {}): Promise<TReturn> {
+		return this.makeRequest(path, {
+			...options,
+			method: 'POST',
+		});
+	}
+
+	private async makeRequest<TReturn>(
+		path: string,
+		options: RequestInit = {},
+	): Promise<TReturn> {
 		await delay(500);
 
-		const response = await fetch(`${this.baseURL}${path}`);
+		const headers = new Headers();
+
+		if (options.body) {
+			headers.append('Content-Type', 'application/json');
+		}
+
+		if (options.headers) {
+			Object.entries(options.headers).forEach(([key, value]) => {
+				headers.append(key, value);
+			});
+		}
+
+		const response = await fetch(`${this.baseURL}${path}`, {
+			...options,
+			headers,
+		});
 
 		const contentType = response.headers.get('content-type');
 
-		let body = null;
+		let responseBody = null;
 
 		if (contentType?.includes('application/json')) {
-			body = await response.json();
+			responseBody = await response.json();
 		}
 
 		if (response.ok) {
-			return body as TReturn;
+			return responseBody as TReturn;
 		}
 
-		throw new ApiError(response, body);
-	}
-
-	async post<TData, TResponse>(path: string, data: TData): Promise<TResponse> {
-		const response = await fetch(`${this.baseURL}${path}`, {
-			method: 'POST',
-			body: JSON.stringify(data),
-		});
-
-		await delay(500);
-
-		return response.json();
+		throw new ApiError(response, responseBody);
 	}
 }

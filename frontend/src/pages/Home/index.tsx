@@ -13,7 +13,7 @@ import magnifierQuestion from '@assets/images/magnifier-question.svg';
 import Loader from '@components/Loader';
 import type { OrderBy } from '@services/ContactsService';
 import ContactsService from '@services/ContactsService';
-import type { Contact } from 'types/contact';
+import type { Contact } from 'types/global';
 import Button from '@components/Button';
 import * as S from './styles';
 

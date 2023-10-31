@@ -10,20 +10,19 @@ import FormGroup from '@components/FormGroup';
 import Input from '@components/Input';
 import Select from '@components/Select';
 
-import ContactsService from '@services/ContactsService';
 import CategoriesService from '@services/CategoriesService';
+import type { Category, ContactFormData } from 'types/global';
 import * as S from './styles';
-
-interface Category {
-	name: string;
-	id: string;
-}
 
 interface ContactFormProps {
 	buttonLabel: string;
+	onSubmit: (data: ContactFormData) => void;
 }
 
-export default function ContactForm({ buttonLabel }: ContactFormProps) {
+export default function ContactForm({
+	buttonLabel,
+	onSubmit,
+}: ContactFormProps) {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [phone, setPhone] = useState('');
@@ -77,14 +76,13 @@ export default function ContactForm({ buttonLabel }: ContactFormProps) {
 
 	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
-		const a = await ContactsService.createContact({
+
+		onSubmit({
 			name,
 			email,
 			phone,
-			category_name: categoryId,
+			categoryId,
 		});
-
-		console.log(a);
 	}
 
 	return (
