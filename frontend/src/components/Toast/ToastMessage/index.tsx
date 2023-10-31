@@ -2,10 +2,11 @@ import type { ReactElement } from 'react';
 import xCircleIcon from '@assets/images/icons/x-circle.svg';
 import checkCircleIcon from '@assets/images/icons/check-circle.svg';
 import * as S from './styles';
+import type { ToastType } from '../ToastContainer';
 
 export interface ToastMessageProps {
 	text: string;
-	type?: 'success' | 'danger' | 'default';
+	type?: ToastType;
 }
 
 export default function ToastMessage({
