@@ -13,7 +13,7 @@ export default function ToastMessage({
 	type = 'default',
 }: ToastMessageProps): ReactElement {
 	return (
-		<S.Container>
+		<S.Container type={type}>
 			{type === 'success' && <img src={checkCircleIcon} alt="Check icon" />}
 			{type === 'danger' && <img src={xCircleIcon} alt="X icon" />}
 
