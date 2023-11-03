@@ -22,6 +22,7 @@ export const Container = styled.div<Pick<ToastMessageProps, 'type'>>`
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		cursor: pointer;
 
 		${containerVariants[type] || containerVariants.default};
 
