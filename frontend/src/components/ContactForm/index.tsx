@@ -88,6 +88,10 @@ export default function ContactForm({
 		});
 
 		setIsSubmitting(false);
+		setName('');
+		setEmail('');
+		setPhone('');
+		setCategoryId('');
 	}
 
 	return (
