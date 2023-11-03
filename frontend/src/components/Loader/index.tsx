@@ -1,5 +1,4 @@
-import ReactDOM from 'react-dom';
-
+import ReactPortal from '@components/ReactPortal';
 import { Spinner } from '@components/Spinner';
 import * as S from './styles';
 
@@ -12,10 +11,11 @@ export default function Loader({ isLoading }: LoaderProps) {
 		return null;
 	}
 
-	return ReactDOM.createPortal(
-		<S.Overlay>
-			<Spinner size={90} />
-		</S.Overlay>,
-		document.getElementById('loader-root')!,
+	return (
+		<ReactPortal containerId="loader-root">
+			<S.Overlay>
+				<Spinner size={90} />
+			</S.Overlay>
+		</ReactPortal>
 	);
 }
