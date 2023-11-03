@@ -27,6 +27,7 @@ interface ContactFormProps {
 
 export interface ContactFormRef {
 	setFieldsValues: (data: ContactFormData) => void;
+	resetFields: () => void;
 }
 
 const ContactForm = forwardRef<ContactFormRef, ContactFormProps>(
@@ -47,6 +48,12 @@ const ContactForm = forwardRef<ContactFormRef, ContactFormProps>(
 					setEmail(data.email ?? '');
 					setPhone(formatPhone(data.phone) ?? '');
 					setCategoryId(data.categoryId ?? '');
+				},
+				resetFields: () => {
+					setName('');
+					setEmail('');
+					setPhone('');
+					setCategoryId('');
 				},
 			}),
 			[],
