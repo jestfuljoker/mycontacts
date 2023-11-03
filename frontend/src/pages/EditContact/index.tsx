@@ -49,17 +49,19 @@ export default function EditContact() {
 				category_id: data.categoryId,
 			};
 
-			// await ContactsService.createContact(contact);
+			const updatedContact = await ContactsService.updateContact(id, contact);
 
-			// toast({
-			// 	text: `Contato "${data.name}" atualizado com sucesso!`,
-			// 	type: 'success',
-			// });
+			setContactName(updatedContact.name);
+
+			toast({
+				text: `Contato "${data.name}" atualizado com sucesso!`,
+				type: 'success',
+			});
 		} catch {
-			// toast({
-			// 	text: `Ocorreu um error ao atualizar o contato ${data.name}!`,
-			// 	type: 'danger',
-			// });
+			toast({
+				text: `Ocorreu um error ao atualizar o contato "${data.name}"!`,
+				type: 'danger',
+			});
 		}
 	}
 

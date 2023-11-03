@@ -30,6 +30,12 @@ class ContactsService {
 			body: JSON.stringify(contact),
 		});
 	}
+
+	updateContact(id: string, contact: ContactRequest): Promise<Contact> {
+		return this.httpClient.put<Contact>(`/contacts/${id}`, {
+			body: JSON.stringify(contact),
+		});
+	}
 }
 
 export default new ContactsService();

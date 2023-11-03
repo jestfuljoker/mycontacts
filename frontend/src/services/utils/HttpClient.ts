@@ -19,6 +19,13 @@ export default class HttpClient {
 		});
 	}
 
+	put<TReturn>(path: string, options: RequestInit = {}): Promise<TReturn> {
+		return this.makeRequest(path, {
+			...options,
+			method: 'PUT',
+		});
+	}
+
 	private async makeRequest<TReturn>(
 		path: string,
 		options: RequestInit = {},

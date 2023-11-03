@@ -109,10 +109,6 @@ const ContactForm = forwardRef<ContactFormRef, ContactFormProps>(
 			});
 
 			setIsSubmitting(false);
-			setName('');
-			setEmail('');
-			setPhone('');
-			setCategoryId('');
 		}
 
 		return (
