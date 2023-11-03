@@ -1,13 +1,8 @@
-import type { ToastType } from '@components/Toast/ToastContainer';
+import type { ToastEvent } from '@components/Toast/ToastContainer';
 import EventManager from '@lib/EventManager';
-
-interface ToastProps {
-	text: string;
-	type: ToastType;
-}
 
 export const toastEventManager = new EventManager();
 
-export function toast({ text, type }: ToastProps) {
-	toastEventManager.emit('addtoast', { text, type });
+export function toast({ text, type, duration }: ToastEvent) {
+	toastEventManager.emit('addtoast', { text, type, duration });
 }
