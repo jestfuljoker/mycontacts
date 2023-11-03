@@ -17,13 +17,15 @@ class ContactsService {
 		this.httpClient = new HttpClient('http://localhost:3001');
 	}
 
-	async listContacts<TReturn = unknown>(
-		orderBy: OrderBy = 'asc',
-	): Promise<TReturn> {
-		return this.httpClient.get<TReturn>(`/contacts?orderBy=${orderBy}`);
+	listContacts(orderBy: OrderBy = 'asc'): Promise<Contact[]> {
+		return this.httpClient.get<Contact[]>(`/contacts?orderBy=${orderBy}`);
 	}
 
-	async createContact(contact: ContactRequest): Promise<Contact> {
+	getContactById(id: string): Promise<ContactRequest> {
+		return this.httpClient.get<ContactRequest>(`/contacts/${id}`);
+	}
+
+	createContact(contact: ContactRequest): Promise<Contact> {
 		return this.httpClient.post<Contact>(`/contacts`, {
 			body: JSON.stringify(contact),
 		});
