@@ -18,7 +18,12 @@ export default function ToastMessage({
 	}
 
 	return (
-		<S.Container type={message.type} onClick={handleRemoveToast}>
+		<S.Container
+			tabIndex={0}
+			role="button"
+			type={message.type}
+			onClick={handleRemoveToast}
+		>
 			{message.type === 'success' && (
 				<img src={checkCircleIcon} alt="Check icon" />
 			)}

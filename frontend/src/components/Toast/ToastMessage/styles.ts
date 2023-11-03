@@ -13,7 +13,9 @@ const containerVariants = {
 	`,
 };
 
-export const Container = styled.div<Pick<ToastMessageProps, 'type'>>`
+export const Container = styled.div<{
+	type?: ToastMessageProps['message']['type'];
+}>`
 	${({ type = 'default' }) => css`
 		padding: 16px 32px;
 		color: #fff;
