@@ -4,6 +4,7 @@ import HttpClient from './utils/HttpClient';
 export type OrderBy = 'asc' | 'desc';
 
 export interface ContactRequest {
+	id: string;
 	name: string;
 	email: string;
 	phone: string;
@@ -35,6 +36,10 @@ class ContactsService {
 		return this.httpClient.put<Contact>(`/contacts/${id}`, {
 			body: JSON.stringify(contact),
 		});
+	}
+
+	deleteContact(id: string): Promise<void> {
+		return this.httpClient.delete<void>(`/contacts/${id}`);
 	}
 }
 

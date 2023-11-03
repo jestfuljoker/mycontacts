@@ -10,7 +10,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export default function Button({
 	isLoading,
-	danger,
+	danger = false,
 	children,
 	disabled,
 	...props

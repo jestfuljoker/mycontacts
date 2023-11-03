@@ -26,6 +26,13 @@ export default class HttpClient {
 		});
 	}
 
+	delete<TReturn>(path: string, options: RequestInit = {}): Promise<TReturn> {
+		return this.makeRequest(path, {
+			...options,
+			method: 'DELETE',
+		});
+	}
+
 	private async makeRequest<TReturn>(
 		path: string,
 		options: RequestInit = {},
