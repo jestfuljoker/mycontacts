@@ -1,23 +1,17 @@
 import type { ChangeEvent, FormEvent } from 'react';
-import {
-	forwardRef,
-	useCallback,
-	useEffect,
-	useImperativeHandle,
-	useState,
-} from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 
 import useErrors from '@hooks/useErrors';
 import formatPhone from '@utils/formatPhone';
 import isEmailValid from '@utils/isEmailValid';
-
 import Button from '@components/Button';
 import FormGroup from '@components/FormGroup';
 import Input from '@components/Input';
 import Select from '@components/Select';
-
 import CategoriesService from '@services/CategoriesService';
+
 import type { Category, ContactFormData } from 'types/global';
+import { useSafeAsyncState } from '@hooks/useSafeAsyncState';
 import * as S from './styles';
 
 interface ContactFormProps {
@@ -36,8 +30,11 @@ const ContactForm = forwardRef<ContactFormRef, ContactFormProps>(
 		const [email, setEmail] = useState('');
 		const [phone, setPhone] = useState('');
 		const [categoryId, setCategoryId] = useState('');
-		const [categoriesList, setCategoriesList] = useState<Category[]>([]);
-		const [isLoadingCategories, setIsLoadingCategories] = useState(true);
+		const [categoriesList, setCategoriesList] = useSafeAsyncState<Category[]>(
+			[],
+		);
+		const [isLoadingCategories, setIsLoadingCategories] =
+			useSafeAsyncState(true);
 		const [isSubmitting, setIsSubmitting] = useState(false);
 
 		useImperativeHandle(
@@ -64,20 +61,21 @@ const ContactForm = forwardRef<ContactFormRef, ContactFormProps>(
 
 		const isFormValid = name && errors.length === 0;
 
-		const loadCategories = useCallback(async () => {
-			try {
-				const categories = await CategoriesService.listCategories<Category[]>();
-
-				setCategoriesList(categories);
-			} catch {
-			} finally {
-				setIsLoadingCategories(false);
-			}
-		}, []);
-
 		useEffect(() => {
+			async function loadCategories() {
+				try {
+					const categories =
+						await CategoriesService.listCategories<Category[]>();
+
+					setCategoriesList(categories);
+				} catch {
+				} finally {
+					setIsLoadingCategories(false);
+				}
+			}
+
 			loadCategories();
-		}, [loadCategories]);
+		}, [setCategoriesList, setIsLoadingCategories]);
 
 		function handleEmailChange(event: ChangeEvent<HTMLInputElement>) {
 			setEmail(event.target.value);

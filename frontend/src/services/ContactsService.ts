@@ -32,7 +32,10 @@ class ContactsService {
 		});
 	}
 
-	updateContact(id: string, contact: ContactRequest): Promise<Contact> {
+	updateContact(
+		id: string,
+		contact: Omit<ContactRequest, 'id'>,
+	): Promise<Contact> {
 		return this.httpClient.put<Contact>(`/contacts/${id}`, {
 			body: JSON.stringify(contact),
 		});
