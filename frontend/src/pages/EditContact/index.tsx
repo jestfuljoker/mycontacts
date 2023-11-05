@@ -4,10 +4,10 @@ import Loader from '@components/Loader';
 import PageHeader from '@components/PageHeader';
 import { useSafeAsyncAction } from '@hooks/useSafeAsyncAction';
 import ContactsService from '@services/ContactsService';
+import type { DomainContactData } from '@services/mappers/ContactMapper';
 import { toast } from '@utils/toast';
 import { useEffect, useRef, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import type { ContactFormData } from 'types/global';
 
 export default function EditContact() {
 	const [isLoading, setIsLoading] = useState(true);
@@ -47,26 +47,19 @@ export default function EditContact() {
 		loadContact();
 	}, [history, id, safeAsyncAction]);
 
-	async function handleSubmit(data: ContactFormData) {
+	async function handleSubmit(contact: DomainContactData) {
 		try {
-			const contact = {
-				name: data.name,
-				email: data.email,
-				phone: data.phone,
-				category_id: data.categoryId,
-			};
-
 			const updatedContact = await ContactsService.updateContact(id, contact);
 
 			setContactName(updatedContact.name);
 
 			toast({
-				text: `Contato "${data.name}" atualizado com sucesso!`,
+				text: `Contato "${contact.name}" atualizado com sucesso!`,
 				type: 'success',
 			});
 		} catch {
 			toast({
-				text: `Ocorreu um error ao atualizar o contato "${data.name}"!`,
+				text: `Ocorreu um error ao atualizar o contato "${contact.name}"!`,
 				type: 'danger',
 			});
 		}

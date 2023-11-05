@@ -2,22 +2,15 @@ import type { ContactFormRef } from '@components/ContactForm';
 import ContactForm from '@components/ContactForm';
 import PageHeader from '@components/PageHeader';
 import ContactsService from '@services/ContactsService';
+import type { DomainContactData } from '@services/mappers/ContactMapper';
 import { toast } from '@utils/toast';
 import { useRef } from 'react';
-import type { ContactFormData } from 'types/global';
 
 export default function NewContact() {
 	const contactFormRef = useRef<ContactFormRef | null>(null);
 
-	async function handleSubmit(data: ContactFormData) {
+	async function handleSubmit(contact: DomainContactData) {
 		try {
-			const contact = {
-				name: data.name,
-				email: data.email,
-				phone: data.phone,
-				category_id: data.categoryId,
-			};
-
 			await ContactsService.createContact(contact);
 
 			contactFormRef.current?.resetFields();

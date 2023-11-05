@@ -1,5 +1,7 @@
 import type { Contact } from 'types/global';
 import HttpClient from './utils/HttpClient';
+import type { DomainContactData } from './mappers/ContactMapper';
+import ContactMapper from './mappers/ContactMapper';
 
 export type OrderBy = 'asc' | 'desc';
 
@@ -26,18 +28,19 @@ class ContactsService {
 		return this.httpClient.get<ContactRequest>(`/contacts/${id}`);
 	}
 
-	createContact(contact: Omit<ContactRequest, 'id'>): Promise<ContactRequest> {
+	createContact(contact: DomainContactData): Promise<ContactRequest> {
+		const body = ContactMapper.toPersistence(contact);
+
 		return this.httpClient.post<ContactRequest>(`/contacts`, {
-			body: JSON.stringify(contact),
+			body: JSON.stringify(body),
 		});
 	}
 
-	updateContact(
-		id: string,
-		contact: Omit<ContactRequest, 'id'>,
-	): Promise<Contact> {
+	updateContact(id: string, contact: DomainContactData): Promise<Contact> {
+		const body = ContactMapper.toPersistence(contact);
+
 		return this.httpClient.put<Contact>(`/contacts/${id}`, {
-			body: JSON.stringify(contact),
+			body: JSON.stringify(body),
 		});
 	}
 

@@ -10,17 +10,18 @@ import Input from '@components/Input';
 import Select from '@components/Select';
 import CategoriesService from '@services/CategoriesService';
 
-import type { Category, ContactFormData } from 'types/global';
+import type { Category } from 'types/global';
 import { useSafeAsyncState } from '@hooks/useSafeAsyncState';
+import type { DomainContactData } from '@services/mappers/ContactMapper';
 import * as S from './styles';
 
 interface ContactFormProps {
 	buttonLabel: string;
-	onSubmit: (data: ContactFormData) => Promise<void>;
+	onSubmit: (data: DomainContactData) => Promise<void>;
 }
 
 export interface ContactFormRef {
-	setFieldsValues: (data: ContactFormData) => void;
+	setFieldsValues: (data: DomainContactData) => void;
 	resetFields: () => void;
 }
 
@@ -40,7 +41,7 @@ const ContactForm = forwardRef<ContactFormRef, ContactFormProps>(
 		useImperativeHandle(
 			ref,
 			() => ({
-				setFieldsValues: (data: ContactFormData) => {
+				setFieldsValues: (data: DomainContactData) => {
 					setName(data.name ?? '');
 					setEmail(data.email ?? '');
 					setPhone(formatPhone(data.phone) ?? '');
