@@ -8,11 +8,11 @@ import Button from '@components/Button';
 import FormGroup from '@components/FormGroup';
 import Input from '@components/Input';
 import Select from '@components/Select';
-import type { Category } from '@services/CategoriesService';
 import CategoriesService from '@services/CategoriesService';
 
 import { useSafeAsyncState } from '@hooks/useSafeAsyncState';
 import type { DomainContactData } from '@services/mappers/ContactMapper';
+import type { DomainCategoryData } from '@services/mappers/CategoryMapper';
 import * as S from './styles';
 
 interface ContactFormProps {
@@ -31,9 +31,9 @@ const ContactForm = forwardRef<ContactFormRef, ContactFormProps>(
 		const [email, setEmail] = useState('');
 		const [phone, setPhone] = useState('');
 		const [categoryId, setCategoryId] = useState('');
-		const [categoriesList, setCategoriesList] = useSafeAsyncState<Category[]>(
-			[],
-		);
+		const [categoriesList, setCategoriesList] = useSafeAsyncState<
+			DomainCategoryData[]
+		>([]);
 		const [isLoadingCategories, setIsLoadingCategories] =
 			useSafeAsyncState(true);
 		const [isSubmitting, setIsSubmitting] = useState(false);

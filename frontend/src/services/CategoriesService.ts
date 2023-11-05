@@ -1,9 +1,9 @@
+import type {
+	DomainCategoryData,
+	PersistenceCategoryData,
+} from './mappers/CategoryMapper';
+import CategoryMapper from './mappers/CategoryMapper';
 import HttpClient from './utils/HttpClient';
-
-export interface Category {
-	name: string;
-	id: string;
-}
 
 class CategoriesService {
 	private httpClient: HttpClient;
@@ -12,8 +12,11 @@ class CategoriesService {
 		this.httpClient = new HttpClient('http://localhost:3001');
 	}
 
-	async listCategories(): Promise<Category[]> {
-		return this.httpClient.get<Category[]>('/categories');
+	async listCategories(): Promise<DomainCategoryData[]> {
+		const categories =
+			await this.httpClient.get<PersistenceCategoryData[]>('/categories');
+
+		return categories.map(CategoryMapper.toDomain);
 	}
 }
 

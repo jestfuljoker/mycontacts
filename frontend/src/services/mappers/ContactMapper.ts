@@ -1,12 +1,12 @@
+import type { PartialBy } from 'types/global';
+import type { DomainCategoryData } from './CategoryMapper';
+
 export interface DomainContactData {
 	id?: string;
 	name: string;
 	email: string;
 	phone: string;
-	category: {
-		id: string;
-		name?: string;
-	};
+	category: PartialBy<DomainCategoryData, 'name'>;
 }
 
 export interface PersistenceContactData {
@@ -21,8 +21,9 @@ export interface PersistenceContactData {
 class ContactMapper {
 	toPersistence(
 		domainContact: DomainContactData,
-	): Omit<PersistenceContactData, 'id' | 'category_name'> {
+	): Omit<PersistenceContactData, 'category_name'> {
 		return {
+			id: domainContact.id,
 			name: domainContact.name,
 			email: domainContact.email,
 			phone: domainContact.phone,
