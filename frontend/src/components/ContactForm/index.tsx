@@ -8,9 +8,9 @@ import Button from '@components/Button';
 import FormGroup from '@components/FormGroup';
 import Input from '@components/Input';
 import Select from '@components/Select';
+import type { Category } from '@services/CategoriesService';
 import CategoriesService from '@services/CategoriesService';
 
-import type { Category } from 'types/global';
 import { useSafeAsyncState } from '@hooks/useSafeAsyncState';
 import type { DomainContactData } from '@services/mappers/ContactMapper';
 import * as S from './styles';
@@ -41,11 +41,11 @@ const ContactForm = forwardRef<ContactFormRef, ContactFormProps>(
 		useImperativeHandle(
 			ref,
 			() => ({
-				setFieldsValues: (data: DomainContactData) => {
-					setName(data.name ?? '');
-					setEmail(data.email ?? '');
-					setPhone(formatPhone(data.phone) ?? '');
-					setCategoryId(data.categoryId ?? '');
+				setFieldsValues: (contact: DomainContactData) => {
+					setName(contact.name ?? '');
+					setEmail(contact.email ?? '');
+					setPhone(formatPhone(contact.phone) ?? '');
+					setCategoryId(contact.category.id ?? '');
 				},
 				resetFields: () => {
 					setName('');
@@ -65,8 +65,7 @@ const ContactForm = forwardRef<ContactFormRef, ContactFormProps>(
 		useEffect(() => {
 			async function loadCategories() {
 				try {
-					const categories =
-						await CategoriesService.listCategories<Category[]>();
+					const categories = await CategoriesService.listCategories();
 
 					setCategoriesList(categories);
 				} catch {
@@ -111,7 +110,9 @@ const ContactForm = forwardRef<ContactFormRef, ContactFormProps>(
 				name,
 				email,
 				phone,
-				categoryId,
+				category: {
+					id: categoryId,
+				},
 			});
 
 			setIsSubmitting(false);

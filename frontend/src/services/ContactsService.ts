@@ -1,6 +1,8 @@
-import type { Contact } from 'types/global';
 import HttpClient from './utils/HttpClient';
-import type { DomainContactData } from './mappers/ContactMapper';
+import type {
+	DomainContactData,
+	PersistenceContactData,
+} from './mappers/ContactMapper';
 import ContactMapper from './mappers/ContactMapper';
 
 export type OrderBy = 'asc' | 'desc';
@@ -20,28 +22,49 @@ class ContactsService {
 		this.httpClient = new HttpClient('http://localhost:3001');
 	}
 
-	listContacts(orderBy: OrderBy = 'asc'): Promise<Contact[]> {
-		return this.httpClient.get<Contact[]>(`/contacts?orderBy=${orderBy}`);
+	async listContacts(orderBy: OrderBy = 'asc'): Promise<DomainContactData[]> {
+		const contacts = await this.httpClient.get<PersistenceContactData[]>(
+			`/contacts?orderBy=${orderBy}`,
+		);
+
+		return contacts.map(ContactMapper.toDomain);
 	}
 
-	getContactById(id: string): Promise<ContactRequest> {
-		return this.httpClient.get<ContactRequest>(`/contacts/${id}`);
+	async getContactById(id: string): Promise<DomainContactData> {
+		const contact = await this.httpClient.get<PersistenceContactData>(
+			`/contacts/${id}`,
+		);
+
+		return ContactMapper.toDomain(contact);
 	}
 
-	createContact(contact: DomainContactData): Promise<ContactRequest> {
+	async createContact(contact: DomainContactData): Promise<DomainContactData> {
 		const body = ContactMapper.toPersistence(contact);
 
-		return this.httpClient.post<ContactRequest>(`/contacts`, {
-			body: JSON.stringify(body),
-		});
+		const createdContact = await this.httpClient.post<PersistenceContactData>(
+			`/contacts`,
+			{
+				body: JSON.stringify(body),
+			},
+		);
+
+		return ContactMapper.toDomain(createdContact);
 	}
 
-	updateContact(id: string, contact: DomainContactData): Promise<Contact> {
+	async updateContact(
+		id: string,
+		contact: DomainContactData,
+	): Promise<DomainContactData> {
 		const body = ContactMapper.toPersistence(contact);
 
-		return this.httpClient.put<Contact>(`/contacts/${id}`, {
-			body: JSON.stringify(body),
-		});
+		const updatedContact = await this.httpClient.put<PersistenceContactData>(
+			`/contacts/${id}`,
+			{
+				body: JSON.stringify(body),
+			},
+		);
+
+		return ContactMapper.toDomain(updatedContact);
 	}
 
 	deleteContact(id: string): Promise<void> {

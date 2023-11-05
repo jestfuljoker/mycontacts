@@ -3,31 +3,31 @@ import type { ChangeEvent } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import emptyBox from '@assets/images/empty-box.svg';
 import arrow from '@assets/images/icons/arrow.svg';
 import edit from '@assets/images/icons/edit.svg';
 import trash from '@assets/images/icons/trash.svg';
-import sad from '@assets/images/sad.svg';
-import emptyBox from '@assets/images/empty-box.svg';
 import magnifierQuestion from '@assets/images/magnifier-question.svg';
+import sad from '@assets/images/sad.svg';
 
+import Button from '@components/Button';
 import Loader from '@components/Loader';
+import Modal from '@components/Modal';
 import type { OrderBy } from '@services/ContactsService';
 import ContactsService from '@services/ContactsService';
-import type { Contact } from 'types/global';
-import Button from '@components/Button';
-import Modal from '@components/Modal';
+import type { DomainContactData } from '@services/mappers/ContactMapper';
 import { toast } from '@utils/toast';
 import * as S from './styles';
 
 export default function Home() {
-	const [contacts, setContacts] = useState<Contact[]>([]);
+	const [contacts, setContacts] = useState<DomainContactData[]>([]);
 	const [orderBy, setOrderBy] = useState<OrderBy>('asc');
 	const [searchTerm, setSearchTerm] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
 	const [hasError, setHasError] = useState(false);
 	const [isContactBeingDeleted, setIsContactBeingDeleted] = useState(false);
 	const [contactBeingDeleted, setContactBeingDeleted] =
-		useState<Contact | null>(null);
+		useState<DomainContactData | null>(null);
 
 	const filteredContacts = useMemo(
 		() =>
@@ -68,7 +68,7 @@ export default function Home() {
 		loadContacts();
 	}
 
-	function handleDeleteContact(contact: Contact) {
+	function handleDeleteContact(contact: DomainContactData) {
 		setContactBeingDeleted(contact);
 	}
 
@@ -200,8 +200,8 @@ export default function Home() {
 							<div className="info">
 								<div className="contact-name">
 									<strong>{contact.name}</strong>
-									{contact.category_name && (
-										<small>{contact.category_name}</small>
+									{contact.category.name && (
+										<small>{contact.category.name}</small>
 									)}
 								</div>
 								<span>{contact.email}</span>

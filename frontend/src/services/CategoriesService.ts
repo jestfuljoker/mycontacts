@@ -1,5 +1,10 @@
 import HttpClient from './utils/HttpClient';
 
+export interface Category {
+	name: string;
+	id: string;
+}
+
 class CategoriesService {
 	private httpClient: HttpClient;
 
@@ -7,8 +12,8 @@ class CategoriesService {
 		this.httpClient = new HttpClient('http://localhost:3001');
 	}
 
-	async listCategories<TReturn = unknown>(): Promise<TReturn> {
-		return this.httpClient.get<TReturn>('/categories');
+	async listCategories(): Promise<Category[]> {
+		return this.httpClient.get<Category[]>('/categories');
 	}
 }
 
