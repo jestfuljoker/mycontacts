@@ -26,8 +26,8 @@ class ContactsService {
 		return this.httpClient.get<ContactRequest>(`/contacts/${id}`);
 	}
 
-	createContact(contact: ContactRequest): Promise<Contact> {
-		return this.httpClient.post<Contact>(`/contacts`, {
+	createContact(contact: Omit<ContactRequest, 'id'>): Promise<ContactRequest> {
+		return this.httpClient.post<ContactRequest>(`/contacts`, {
 			body: JSON.stringify(contact),
 		});
 	}
