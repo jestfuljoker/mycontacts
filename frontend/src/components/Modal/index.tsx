@@ -1,5 +1,6 @@
 import ReactPortal from '@components/ReactPortal';
-import { useState, type ReactNode, useEffect, useRef } from 'react';
+import useAnimatedUnmount from '@hooks/useAnimatedUnmount';
+import { type ReactNode } from 'react';
 import Button from '../Button';
 import * as S from './styles';
 
@@ -26,34 +27,11 @@ export default function Modal({
 	onCancel,
 	onConfirm,
 }: ModalProps) {
-	const [shouldRender, setShouldRender] = useState(open);
-	const overlayRef = useRef<HTMLDivElement | null>(null);
-
-	useEffect(() => {
-		const overlayRefCurrent = overlayRef.current;
-
-		function handleAnimationEnd() {
-			setShouldRender(false);
-		}
-
-		if (open) {
-			setShouldRender(true);
-		}
-
-		if (!open) {
-			overlayRefCurrent?.addEventListener('animationend', handleAnimationEnd);
-		}
-
-		return () =>
-			overlayRefCurrent?.removeEventListener(
-				'animationend',
-				handleAnimationEnd,
-			);
-	}, [open]);
+	const { elementRef, shouldRender } = useAnimatedUnmount(open);
 
 	return shouldRender ? (
 		<ReactPortal containerId="modal-root">
-			<S.Overlay isLeaving={!open} ref={overlayRef}>
+			<S.Overlay isLeaving={!open} ref={elementRef}>
 				<S.Container danger={danger} isLeaving={!open}>
 					<h1>{title}</h1>
 
