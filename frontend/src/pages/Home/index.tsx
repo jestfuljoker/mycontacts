@@ -28,11 +28,17 @@ export default function Home() {
 		handleConfirmDeleteContact,
 	} = useHome();
 
+	const hasContacts = contacts.length > 0;
+
+	const isListEmpty = !hasError && !isLoading && !hasContacts;
+
+	const isSearchEmpty = !hasError && hasContacts && filteredContacts.length < 1;
+
 	return (
 		<S.Container>
 			<Loader isLoading={isLoading} />
 
-			{contacts.length !== 0 && (
+			{hasContacts && (
 				<InputSearch onChange={handleChangeSearchTerm} value={searchTerm} />
 			)}
 
@@ -44,34 +50,32 @@ export default function Home() {
 
 			{hasError && <ErrorStatus onTryAgain={handleTryAgain} />}
 
-			{!hasError && (
+			{isListEmpty && <EmptyList />}
+
+			{isSearchEmpty && <SearchNotFound searchTerm={searchTerm} />}
+
+			{hasContacts && (
 				<>
-					{!isLoading && contacts.length < 1 && <EmptyList />}
-
-					{!isLoading && contacts.length > 0 && filteredContacts.length < 1 && (
-						<SearchNotFound searchTerm={searchTerm} />
-					)}
-
 					<ContactsList
 						orderBy={orderBy}
 						filteredContacts={filteredContacts}
 						onDeleteContact={handleDeleteContact}
 						onToggleOrderBy={handleToggleOrderBy}
 					/>
+
+					<Modal
+						danger
+						open={!!contactBeingDeleted}
+						isLoading={isContactBeingDeleted}
+						title={`Tem certeza que deseja deletar o contato ”${contactBeingDeleted?.name}”?`}
+						confirmLabel="Deletar"
+						onCancel={handleCloseDeleteModal}
+						onConfirm={handleConfirmDeleteContact}
+					>
+						<p>Esta ação não poderá ser desfeita!</p>
+					</Modal>
 				</>
 			)}
-
-			<Modal
-				danger
-				open={!!contactBeingDeleted}
-				isLoading={isContactBeingDeleted}
-				title={`Tem certeza que deseja deletar o contato ”${contactBeingDeleted?.name}”?`}
-				confirmLabel="Deletar"
-				onCancel={handleCloseDeleteModal}
-				onConfirm={handleConfirmDeleteContact}
-			>
-				<p>Esta ação não poderá ser desfeita!</p>
-			</Modal>
 		</S.Container>
 	);
 }
