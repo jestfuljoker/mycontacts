@@ -1,5 +1,5 @@
 import ReactPortal from '@components/ReactPortal';
-import type { ReactNode } from 'react';
+import { useState, type ReactNode, useEffect, useRef } from 'react';
 import Button from '../Button';
 import * as S from './styles';
 
@@ -26,10 +26,35 @@ export default function Modal({
 	onCancel,
 	onConfirm,
 }: ModalProps) {
-	return open ? (
+	const [shouldRender, setShouldRender] = useState(open);
+	const overlayRef = useRef<HTMLDivElement | null>(null);
+
+	useEffect(() => {
+		const overlayRefCurrent = overlayRef.current;
+
+		function handleAnimationEnd() {
+			setShouldRender(false);
+		}
+
+		if (open) {
+			setShouldRender(true);
+		}
+
+		if (!open) {
+			overlayRefCurrent?.addEventListener('animationend', handleAnimationEnd);
+		}
+
+		return () =>
+			overlayRefCurrent?.removeEventListener(
+				'animationend',
+				handleAnimationEnd,
+			);
+	}, [open]);
+
+	return shouldRender ? (
 		<ReactPortal containerId="modal-root">
-			<S.Overlay>
-				<S.Container danger={danger}>
+			<S.Overlay isLeaving={!open} ref={overlayRef}>
+				<S.Container danger={danger} isLeaving={!open}>
 					<h1>{title}</h1>
 
 					<div className="modal-body">{children}</div>

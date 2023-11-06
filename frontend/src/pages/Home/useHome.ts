@@ -12,6 +12,7 @@ export default function useHome() {
 	const [isLoading, setIsLoading] = useState(true);
 	const [hasError, setHasError] = useState(false);
 	const [isContactBeingDeleted, setIsContactBeingDeleted] = useState(false);
+	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 	const [contactBeingDeleted, setContactBeingDeleted] =
 		useState<DomainContactData | null>(null);
 
@@ -57,10 +58,11 @@ export default function useHome() {
 
 	function handleDeleteContact(contact: DomainContactData) {
 		setContactBeingDeleted(contact);
+		setIsDeleteModalOpen(true);
 	}
 
 	function handleCloseDeleteModal() {
-		setContactBeingDeleted(null);
+		setIsDeleteModalOpen(false);
 	}
 
 	async function handleConfirmDeleteContact() {
@@ -95,9 +97,10 @@ export default function useHome() {
 		searchTerm,
 		isLoading,
 		hasError,
-		isContactBeingDeleted,
-		contactBeingDeleted,
 		filteredContacts,
+		isDeleteModalOpen,
+		contactBeingDeleted,
+		isContactBeingDeleted,
 		handleToggleOrderBy,
 		handleChangeSearchTerm,
 		handleTryAgain,

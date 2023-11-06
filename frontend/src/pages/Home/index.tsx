@@ -18,6 +18,7 @@ export default function Home() {
 		isLoading,
 		searchTerm,
 		filteredContacts,
+		isDeleteModalOpen,
 		contactBeingDeleted,
 		isContactBeingDeleted,
 		handleToggleOrderBy,
@@ -65,7 +66,7 @@ export default function Home() {
 
 					<Modal
 						danger
-						open={!!contactBeingDeleted}
+						open={isDeleteModalOpen}
 						isLoading={isContactBeingDeleted}
 						title={`Tem certeza que deseja deletar o contato ”${contactBeingDeleted?.name}”?`}
 						confirmLabel="Deletar"
