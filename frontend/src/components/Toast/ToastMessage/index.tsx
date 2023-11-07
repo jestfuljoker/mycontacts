@@ -1,6 +1,7 @@
 import checkCircleIcon from '@assets/images/icons/check-circle.svg';
 import xCircleIcon from '@assets/images/icons/x-circle.svg';
 import type { ToastEventWithId } from '@components/Toast/ToastContainer/useToastContainer';
+import { memo } from 'react';
 import type { RefObject } from 'react';
 import * as S from './styles';
 import useToastMessage from './useToastMessage';
@@ -12,7 +13,7 @@ export interface ToastMessageProps {
 	animatedRef: RefObject<HTMLDivElement>;
 }
 
-export default function ToastMessage({
+function ToastMessage({
 	message,
 	isLeaving,
 	onRemoveMessage,
@@ -41,3 +42,5 @@ export default function ToastMessage({
 		</S.Container>
 	);
 }
+
+export default memo(ToastMessage);
