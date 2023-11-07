@@ -1,4 +1,4 @@
-import type { ToastEvent } from '@components/Toast/ToastContainer';
+import type { ToastEvent } from '@components/Toast/ToastContainer/useToastContainer';
 
 type ListenerFn<T = unknown> = (payload: T) => void;
 

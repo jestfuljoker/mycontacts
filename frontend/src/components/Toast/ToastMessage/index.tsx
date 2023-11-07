@@ -1,7 +1,7 @@
 import checkCircleIcon from '@assets/images/icons/check-circle.svg';
 import xCircleIcon from '@assets/images/icons/x-circle.svg';
+import type { ToastEventWithId } from '@components/Toast/ToastContainer/useToastContainer';
 import { useEffect, useRef } from 'react';
-import type { ToastEventWithId } from '../ToastContainer';
 import * as S from './styles';
 import useToastMessage from './useToastMessage';
 

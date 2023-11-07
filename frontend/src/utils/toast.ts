@@ -1,4 +1,4 @@
-import type { ToastEvent } from '@components/Toast/ToastContainer';
+import type { ToastEvent } from '@components/Toast/ToastContainer/useToastContainer';
 import EventManager from '@lib/EventManager';
 
 export const toastEventManager = new EventManager();

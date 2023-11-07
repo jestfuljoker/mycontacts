@@ -1,4 +1,9 @@
+import type { ReactElement } from 'react';
 import { useCallback, useState } from 'react';
+
+type RenderItemContext = { isLeaving: boolean };
+
+type RenderItemFn<T> = (item: T, context: RenderItemContext) => ReactElement;
 
 export default function useAnimatedList<T extends { id: number }>(
 	initialValue: T[] = [],
@@ -20,10 +25,20 @@ export default function useAnimatedList<T extends { id: number }>(
 		);
 	}, []);
 
+	const renderList = useCallback(
+		(renderItem: RenderItemFn<T>) =>
+			items.map((item) =>
+				renderItem(item, {
+					isLeaving: pendingRemovalItemsIds.includes(item.id),
+				}),
+			),
+		[items, pendingRemovalItemsIds],
+	);
+
 	return {
 		items,
-		pendingRemovalItemsIds,
 		setItems,
+		renderList,
 		handleRemoveItem,
 		handleAnimationEnd,
 	};

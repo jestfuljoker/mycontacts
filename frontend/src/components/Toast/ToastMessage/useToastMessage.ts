@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import type { ToastEventWithId } from '../ToastContainer';
+import type { ToastEventWithId } from '../ToastContainer/useToastContainer';
 
 interface UseToastMessageProps {
 	onRemoveMessage: (id: number) => void;
