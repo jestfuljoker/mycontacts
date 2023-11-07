@@ -16,17 +16,24 @@ export type ToastEventWithId = ToastEvent & {
 };
 
 export default function ToastContainer(): ReactElement {
-	const { messages, handleRemoveMessage } = useToastContainer();
+	const {
+		messages,
+		pendingRemovalItemsIds,
+		handleRemoveItem,
+		handleAnimationEnd,
+	} = useToastContainer();
 
-	return (
-		<S.Container>
-			{messages.map((message) => (
-				<ToastMessage
-					key={message.id}
-					message={message}
-					onRemoveMessage={handleRemoveMessage}
-				/>
-			))}
-		</S.Container>
-	);
+	function renderList() {
+		return messages.map((message) => (
+			<ToastMessage
+				key={message.id}
+				message={message}
+				onRemoveMessage={handleRemoveItem}
+				onAnimationEnd={handleAnimationEnd}
+				isLeaving={pendingRemovalItemsIds.includes(message.id)}
+			/>
+		));
+	}
+
+	return <S.Container>{renderList()}</S.Container>;
 }

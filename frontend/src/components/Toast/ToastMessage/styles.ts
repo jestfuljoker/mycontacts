@@ -1,5 +1,28 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import type { ToastMessageProps } from '.';
+
+const messageIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+const messageOut = keyframes`
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(100px);
+  }
+`;
 
 const containerVariants = {
 	default: css`
@@ -15,8 +38,9 @@ const containerVariants = {
 
 export const Container = styled.div<{
 	type?: ToastMessageProps['message']['type'];
+	isLeaving: boolean;
 }>`
-	${({ type = 'default' }) => css`
+	${({ type = 'default', isLeaving }) => css`
 		padding: 16px 32px;
 		color: #fff;
 		border-radius: 4px;
@@ -25,6 +49,12 @@ export const Container = styled.div<{
 		align-items: center;
 		justify-content: center;
 		cursor: pointer;
+		animation: ${messageIn} 0.3s;
+
+		${isLeaving &&
+		css`
+			animation: ${messageOut} 0.2s;
+		`}
 
 		${containerVariants[type] || containerVariants.default};
 
