@@ -1,9 +1,9 @@
 import GlobalStyles from '@assets/styles/global';
 import defaultTheme from '@assets/styles/themes/default';
 import Header from '@components/Header';
+import ToastContainer from '@components/Toast/ToastContainer';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import ToastContainer from '@components/Toast/ToastContainer';
 import Routes from '../../Routes';
 import * as S from './styles';
 

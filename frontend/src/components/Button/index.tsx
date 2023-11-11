@@ -16,7 +16,7 @@ export default function Button({
 	...props
 }: ButtonProps): ReactElement {
 	return (
-		<S.Button {...props} disabled={isLoading || disabled} danger={danger}>
+		<S.Button {...props} disabled={isLoading || disabled} $danger={danger}>
 			{!isLoading ? children : <Spinner size={16} />}
 		</S.Button>
 	);

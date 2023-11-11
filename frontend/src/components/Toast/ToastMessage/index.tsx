@@ -31,7 +31,7 @@ function ToastMessage({
 			role="button"
 			type={message.type}
 			onClick={handleRemoveToast}
-			isLeaving={isLeaving}
+			$isLeaving={isLeaving}
 		>
 			{message.type === 'success' && (
 				<img src={checkCircleIcon} alt="Check icon" />

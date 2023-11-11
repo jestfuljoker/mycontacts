@@ -41,6 +41,7 @@ const ContactForm = forwardRef<ContactFormRef, ContactFormProps>(
 			<S.Form onSubmit={handleSubmit} noValidate>
 				<FormGroup error={getErrorMessageByFieldName('name')}>
 					<Input
+						autoFocus
 						disabled={isSubmitting}
 						onChange={handleNameChange}
 						value={name}

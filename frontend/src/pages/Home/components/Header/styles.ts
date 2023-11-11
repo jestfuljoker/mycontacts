@@ -1,10 +1,10 @@
 import styled, { css } from 'styled-components';
 
-export const Container = styled.header<{ justifyContent: string }>`
-	${({ theme, justifyContent }) => css`
+export const Container = styled.header<{ $justifyContent: string }>`
+	${({ theme, $justifyContent }) => css`
 		display: flex;
 		align-items: center;
-		justify-content: ${justifyContent};
+		justify-content: ${$justifyContent};
 
 		border-bottom: 2px solid ${theme.colors.gray[100]};
 		padding-bottom: 16px;

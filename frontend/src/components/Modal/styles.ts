@@ -40,8 +40,8 @@ const scaleOut = keyframes`
   }
 `;
 
-export const Overlay = styled.div<{ isLeaving: boolean }>`
-	${({ isLeaving }) => css`
+export const Overlay = styled.div<{ $isLeaving: boolean }>`
+	${({ $isLeaving }) => css`
 		background: rgba(0, 0, 0, 0.6);
 		backdrop-filter: blur(5px);
 		position: fixed;
@@ -54,15 +54,15 @@ export const Overlay = styled.div<{ isLeaving: boolean }>`
 		justify-content: center;
 		animation: ${fadeIn} 0.3s;
 
-		${isLeaving &&
+		${$isLeaving &&
 		css`
 			animation: ${fadeOut} 0.2s;
 		`}
 	`}
 `;
 
-export const Container = styled.div<{ danger?: boolean; isLeaving: boolean }>`
-	${({ isLeaving, theme, danger }) => css`
+export const Container = styled.div<{ $danger?: boolean; $isLeaving: boolean }>`
+	${({ $isLeaving, theme, danger }) => css`
 		width: 100%;
 		max-width: 450px;
 		background: #fff;
@@ -71,7 +71,7 @@ export const Container = styled.div<{ danger?: boolean; isLeaving: boolean }>`
 		box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.04);
 		animation: ${scaleIn} 0.3s;
 
-		${isLeaving &&
+		${$isLeaving &&
 		css`
 			animation: ${scaleOut} 0.2s;
 		`}

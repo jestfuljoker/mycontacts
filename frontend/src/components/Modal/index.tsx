@@ -31,8 +31,8 @@ export default function Modal({
 
 	return shouldRender ? (
 		<ReactPortal containerId="modal-root">
-			<S.Overlay isLeaving={!open} ref={elementRef}>
-				<S.Container danger={danger} isLeaving={!open}>
+			<S.Overlay $isLeaving={!open} ref={elementRef}>
+				<S.Container $danger={danger} $isLeaving={!open}>
 					<h1>{title}</h1>
 
 					<div className="modal-body">{children}</div>

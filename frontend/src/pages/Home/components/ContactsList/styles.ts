@@ -1,7 +1,7 @@
 import type { OrderBy } from '@services/ContactsService';
 import styled from 'styled-components';
 
-export const ListHeader = styled.header<{ orderBy: OrderBy }>`
+export const ListHeader = styled.header<{ $orderBy: OrderBy }>`
 	margin-top: 24px;
 	margin-bottom: 8px;
 

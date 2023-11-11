@@ -38,9 +38,9 @@ const containerVariants = {
 
 export const Container = styled.div<{
 	type?: ToastMessageProps['message']['type'];
-	isLeaving: boolean;
+	$isLeaving: boolean;
 }>`
-	${({ type = 'default', isLeaving }) => css`
+	${({ type = 'default', $isLeaving }) => css`
 		padding: 16px 32px;
 		color: #fff;
 		border-radius: 4px;
@@ -51,7 +51,7 @@ export const Container = styled.div<{
 		cursor: pointer;
 		animation: ${messageIn} 0.3s;
 
-		${isLeaving &&
+		${$isLeaving &&
 		css`
 			animation: ${messageOut} 0.2s;
 		`}

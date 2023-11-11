@@ -20,8 +20,8 @@ const fadeOut = keyframes`
   }
 `;
 
-export const Overlay = styled.div<{ isLeaving: boolean }>`
-	${({ isLeaving }) => css`
+export const Overlay = styled.div<{ $isLeaving: boolean }>`
+	${({ $isLeaving }) => css`
 		width: 100%;
 		height: 100%;
 		position: fixed;
@@ -33,7 +33,7 @@ export const Overlay = styled.div<{ isLeaving: boolean }>`
 		justify-content: center;
 		animation: ${fadeIn} 0.3s;
 
-		${isLeaving &&
+		${$isLeaving &&
 		css`
 			animation: ${fadeOut} 0.3s;
 		`}
