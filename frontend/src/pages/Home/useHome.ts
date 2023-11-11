@@ -3,25 +3,32 @@ import ContactsService from '@services/ContactsService';
 import type { DomainContactData } from '@services/mappers/ContactMapper';
 import { toast } from '@utils/toast';
 import type { ChangeEvent } from 'react';
-import { useState, useMemo, useCallback, useEffect } from 'react';
+import {
+	useCallback,
+	useDeferredValue,
+	useEffect,
+	useMemo,
+	useState,
+} from 'react';
 
 export default function useHome() {
 	const [contacts, setContacts] = useState<DomainContactData[]>([]);
 	const [orderBy, setOrderBy] = useState<OrderBy>('asc');
-	const [searchTerm, setSearchTerm] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
 	const [hasError, setHasError] = useState(false);
 	const [isContactBeingDeleted, setIsContactBeingDeleted] = useState(false);
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 	const [contactBeingDeleted, setContactBeingDeleted] =
 		useState<DomainContactData | null>(null);
+	const [searchTerm, setSearchTerm] = useState('');
+	const deferredSearchTerm = useDeferredValue(searchTerm);
 
 	const filteredContacts = useMemo(
 		() =>
 			contacts.filter((contact) =>
-				contact.name.toLowerCase().includes(searchTerm.toLowerCase()),
+				contact.name.toLowerCase().includes(deferredSearchTerm.toLowerCase()),
 			),
-		[contacts, searchTerm],
+		[contacts, deferredSearchTerm],
 	);
 
 	const loadContacts = useCallback(async () => {
@@ -44,9 +51,14 @@ export default function useHome() {
 		loadContacts();
 	}, [loadContacts]);
 
-	function handleToggleOrderBy() {
+	const handleToggleOrderBy = useCallback(() => {
 		setOrderBy((prevState) => (prevState === 'asc' ? 'desc' : 'asc'));
-	}
+	}, []);
+
+	const handleDeleteContact = useCallback((contact: DomainContactData) => {
+		setContactBeingDeleted(contact);
+		setIsDeleteModalOpen(true);
+	}, []);
 
 	function handleChangeSearchTerm(event: ChangeEvent<HTMLInputElement>) {
 		setSearchTerm(event.target.value);
@@ -54,11 +66,6 @@ export default function useHome() {
 
 	function handleTryAgain() {
 		loadContacts();
-	}
-
-	function handleDeleteContact(contact: DomainContactData) {
-		setContactBeingDeleted(contact);
-		setIsDeleteModalOpen(true);
 	}
 
 	function handleCloseDeleteModal() {
@@ -92,11 +99,11 @@ export default function useHome() {
 	}
 
 	return {
-		contacts,
 		orderBy,
-		searchTerm,
-		isLoading,
+		contacts,
 		hasError,
+		isLoading,
+		searchTerm,
 		filteredContacts,
 		isDeleteModalOpen,
 		contactBeingDeleted,

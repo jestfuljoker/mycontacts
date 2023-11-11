@@ -6,6 +6,7 @@ import trash from '@assets/images/icons/trash.svg';
 import type { OrderBy } from '@services/ContactsService';
 import type { DomainContactData } from '@services/mappers/ContactMapper';
 
+import { memo } from 'react';
 import * as S from './styles';
 
 interface ContactsListProps {
@@ -15,7 +16,7 @@ interface ContactsListProps {
 	onDeleteContact: (contact: DomainContactData) => void;
 }
 
-export default function ContactsList({
+function ContactsList({
 	orderBy,
 	filteredContacts,
 	onToggleOrderBy,
@@ -56,3 +57,5 @@ export default function ContactsList({
 		</>
 	);
 }
+
+export default memo(ContactsList);

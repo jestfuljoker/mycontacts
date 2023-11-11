@@ -56,13 +56,13 @@ export const Overlay = styled.div<{ $isLeaving: boolean }>`
 
 		${$isLeaving &&
 		css`
-			animation: ${fadeOut} 0.2s;
+			animation: ${fadeOut} 0.2s forwards;
 		`}
 	`}
 `;
 
 export const Container = styled.div<{ $danger?: boolean; $isLeaving: boolean }>`
-	${({ $isLeaving, theme, danger }) => css`
+	${({ $isLeaving, theme, $danger }) => css`
 		width: 100%;
 		max-width: 450px;
 		background: #fff;
@@ -73,12 +73,12 @@ export const Container = styled.div<{ $danger?: boolean; $isLeaving: boolean }>`
 
 		${$isLeaving &&
 		css`
-			animation: ${scaleOut} 0.2s;
+			animation: ${scaleOut} 0.2s forwards;
 		`}
 
 		> h1 {
 			font-size: 22px;
-			color: ${danger ? theme.colors.danger.main : theme.colors.gray[900]};
+			color: ${$danger ? theme.colors.danger.main : theme.colors.gray[900]};
 		}
 
 		.modal-body {
