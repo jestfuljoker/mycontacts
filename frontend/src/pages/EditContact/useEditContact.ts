@@ -4,14 +4,14 @@ import ContactsService from '@services/ContactsService';
 import type { DomainContactData } from '@services/mappers/ContactMapper';
 import { toast } from '@utils/toast';
 import { useEffect, useRef, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function useEditContact() {
 	const [isLoading, setIsLoading] = useState(true);
 	const [contactName, setContactName] = useState('');
 
 	const { id } = useParams<{ id: string }>();
-	const history = useHistory();
+	const navigate = useNavigate();
 	const contactFormRef = useRef<ContactFormRef | null>(null);
 
 	const safeAsyncAction = useSafeAsyncAction();
@@ -21,7 +21,7 @@ export default function useEditContact() {
 
 		async function loadContact() {
 			try {
-				const contact = await ContactsService.getContactById(id, {
+				const contact = await ContactsService.getContactById(id as string, {
 					signal: controller.signal,
 				});
 
@@ -41,7 +41,7 @@ export default function useEditContact() {
 						text: 'Contato não encontrado!',
 						type: 'danger',
 					});
-					history.push('/');
+					navigate('/', { replace: true });
 				});
 			}
 		}
@@ -51,11 +51,14 @@ export default function useEditContact() {
 		return () => {
 			controller.abort();
 		};
-	}, [history, id, safeAsyncAction]);
+	}, [id, navigate, safeAsyncAction]);
 
 	async function handleSubmit(contact: DomainContactData) {
 		try {
-			const updatedContact = await ContactsService.updateContact(id, contact);
+			const updatedContact = await ContactsService.updateContact(
+				id as string,
+				contact,
+			);
 
 			setContactName(updatedContact.name);
 
