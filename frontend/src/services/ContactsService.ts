@@ -22,17 +22,25 @@ class ContactsService {
 		this.httpClient = new HttpClient('http://localhost:3001');
 	}
 
-	async listContacts(orderBy: OrderBy = 'asc'): Promise<DomainContactData[]> {
+	async listContacts(
+		orderBy: OrderBy = 'asc',
+		options?: RequestInit,
+	): Promise<DomainContactData[]> {
 		const contacts = await this.httpClient.get<PersistenceContactData[]>(
 			`/contacts?orderBy=${orderBy}`,
+			options,
 		);
 
 		return contacts.map(ContactMapper.toDomain);
 	}
 
-	async getContactById(id: string): Promise<DomainContactData> {
+	async getContactById(
+		id: string,
+		options?: RequestInit,
+	): Promise<DomainContactData> {
 		const contact = await this.httpClient.get<PersistenceContactData>(
 			`/contacts/${id}`,
+			options,
 		);
 
 		return ContactMapper.toDomain(contact);

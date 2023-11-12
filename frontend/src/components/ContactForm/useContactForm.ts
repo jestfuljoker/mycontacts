@@ -54,9 +54,13 @@ export default function useContactForm({ onSubmit, ref }: UseContactFormProps) {
 	const isFormValid = name && errors.length === 0;
 
 	useEffect(() => {
+		const controller = new AbortController();
+
 		async function loadCategories() {
 			try {
-				const categories = await CategoriesService.listCategories();
+				const categories = await CategoriesService.listCategories({
+					signal: controller.signal,
+				});
 
 				setCategoriesList(categories);
 			} catch {
@@ -66,6 +70,8 @@ export default function useContactForm({ onSubmit, ref }: UseContactFormProps) {
 		}
 
 		loadCategories();
+
+		return () => controller.abort();
 	}, [setCategoriesList, setIsLoadingCategories]);
 
 	function handleEmailChange(event: ChangeEvent<HTMLInputElement>) {

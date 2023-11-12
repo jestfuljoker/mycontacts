@@ -12,9 +12,11 @@ class CategoriesService {
 		this.httpClient = new HttpClient('http://localhost:3001');
 	}
 
-	async listCategories(): Promise<DomainCategoryData[]> {
-		const categories =
-			await this.httpClient.get<PersistenceCategoryData[]>('/categories');
+	async listCategories(options?: RequestInit): Promise<DomainCategoryData[]> {
+		const categories = await this.httpClient.get<PersistenceCategoryData[]>(
+			'/categories',
+			options,
+		);
 
 		return categories.map(CategoryMapper.toDomain);
 	}

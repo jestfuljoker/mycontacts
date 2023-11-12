@@ -46,7 +46,7 @@ const ContactForm = forwardRef<ContactFormRef, ContactFormProps>(
 						onChange={handleNameChange}
 						value={name}
 						placeholder="Nome *"
-						error={getErrorMessageByFieldName('name')}
+						$error={getErrorMessageByFieldName('name')}
 					/>
 				</FormGroup>
 
@@ -57,7 +57,7 @@ const ContactForm = forwardRef<ContactFormRef, ContactFormProps>(
 						onChange={handleEmailChange}
 						value={email}
 						placeholder="Email"
-						error={getErrorMessageByFieldName('email')}
+						$error={getErrorMessageByFieldName('email')}
 					/>
 				</FormGroup>
 

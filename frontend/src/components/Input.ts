@@ -2,7 +2,7 @@ import type { InputHTMLAttributes } from 'react';
 import styled, { css } from 'styled-components';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-	error?: string;
+	$error?: string;
 }
 
 export default styled.input<InputProps>`
@@ -22,8 +22,8 @@ export default styled.input<InputProps>`
 		border-color: ${({ theme }) => theme.colors.primary.main};
 	}
 
-	${({ theme, error }) =>
-		error &&
+	${({ theme, $error }) =>
+		$error &&
 		css`
 			color: ${theme.colors.danger.main};
 			border-color: ${theme.colors.danger.main} !important;
